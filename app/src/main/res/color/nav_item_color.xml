@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ✅ HOME: Sky Blue -->
+    <item
+        android:state_checked="true"
+        android:id="@+id/nav_home"
+        android:color="#2196F3" />
+
+    <!-- 📊 SUMMARY: Teal -->
+    <item
+        android:state_checked="true"
+        android:id="@+id/nav_summary"
+        android:color="#009688" />
+
+    <!-- 👤 PROFILE: Deep Purple -->
+    <item
+        android:state_checked="true"
+        android:id="@+id/nav_profile"
+        android:color="#673AB7" />
+
+    <!-- ⚙️ SETTINGS: Orange -->
+    <item
+        android:state_checked="true"
+        android:id="@+id/nav_settings"
+        android:color="#FF9800" />
+
+    <!-- ⚪ DEFAULT (unselected) -->
+    <item android:color="#9E9E9E" />
+
+</selector>

@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_title">ExpenseTracker</string>
+    <string name="app_name">ExpenseTracker</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_summary">Summary</string>
+    <string name="profile_name">John Doe</string>
+    <string name="profile_email">john.doe@example.com</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="total_expenses">Total Expenses</string>
+    <string name="total_amount">₱12,345</string>
+    <string name="transactions">Transactions</string>
+    <string name="log_out">Log Out</string>
+    <string name="statistics">Statistics</string>
+    <string name="settings">Settings</string>
+    <string name="nav_settings">Settings</string>
+    <string name="notifications">Notifications</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="theme_icon">Theme Icon</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="app_subtitle">Track Your Expense Wisely!</string>
+    <string name="hello_user">Hello, Jade Sanchez!</string>
+    <string name="welcome_back">Welcome back 👋</string>
+    <string name="current_month">October 2025</string>
+    <string name="current_amount">₱1,250</string>
+    <string name="this_month">This month</string>
+    <string name="home_screen_title">Home Screen</string>
+    <string name="home_screen_subtitle">Welcome to Expense Tracker</string>
+    <string name="profile_picture">Profile</string>
+    <string name="john_doe">John Doe</string>
+    <string name="john_doe_email">john.doe@example.com</string>
+    <string name="transactions_count">Transactions</string>
+    <string name="total_expenses_amount">Total Expense</string>
+    <string name="nav_notes">Notes</string>
+    <string name="app_logo">App Logo</string>
+    <string name="app_tagline">Track Your Expense Wisely!</string>
+    <string name="coin_icon">App Logo</string>
+    <string name="delete_note">Delete Note</string>
+    <string name="note_title">Note Title</string>
+    <string name="note_content">Note Content</string>
+    <string name="add_note">Add Note</string>
+    <string name="category_amount">%1$s : ₱%2$s</string>
+    <string name="expense_count">%1$d expenses</string>
+
+
+
+</resources>

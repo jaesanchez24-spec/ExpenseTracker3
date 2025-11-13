@@ -1,0 +1,33 @@
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#777777</color>
+    <color name="light_gray">#F7F8FA</color>
+    <color name="blue_primary">#007AFF</color>
+    <color name="blue_light">#00B0FF</color>
+    <color name="nav_item_selected">#007AFF</color>
+    <color name="nav_item_unselected">#A0A0A0</color>
+    <color name="card_profile_bg">#00BCD4</color>
+    <color name="card_monthly_bg">#00BCD4</color>
+    <color name="red">#F44336</color>
+    <color name="teal_500">#03DAC5</color>
+    <color name="colorPrimary">#03DAC5</color>
+    <color name="green">#4CAF50</color>
+    <color name="blue">#2196F3</color>
+    <color name="purple">#9C27B0</color>
+    <color name="orange">#FF9800</color>
+    <color name="nav_home_active">#2196F3</color>      <!-- Blue -->
+    <color name="nav_notes_active">#4CAF50</color>     <!-- Green -->
+    <color name="nav_summary_active">#FF9800</color>   <!-- Orange -->
+    <color name="nav_profile_active">#9C27B0</color>   <!-- Purple -->
+    <color name="nav_settings_active">#F44336</color>  <!-- Red -->
+    <color name="nav_inactive">#9E9E9E</color>         <!-- Gray -->
+    <color name="teal_700">#018786</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="red_light">#FFCDD2</color>
+    <color name="yellow_light">#FFF9C4</color>
+    <color name="colorImportant">#FFEB3B</color> <!-- yellow for important -->
+    <color name="colorNormal">#FFFFFF</color>   <!-- white for normal note -->
+
+
+</resources>

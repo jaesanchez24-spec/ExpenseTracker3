@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F7FB"
+    tools:context=".AddEditExpenseActivity">
+
+    <!-- Gradient Header -->
+    <View
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:background="@drawable/gradient_header_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add / Edit Expense"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toTopOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Main Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/formCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="-60dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Expense Title -->
+            <EditText
+                android:id="@+id/editTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Expense Title"
+                android:padding="14dp"
+                android:textColor="#222"
+                android:textColorHint="#888"
+                android:background="@drawable/rounded_input"
+                android:drawableStart="@drawable/ic_title"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Amount -->
+            <EditText
+                android:id="@+id/editAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Amount (₱)"
+                android:inputType="numberDecimal"
+                android:padding="14dp"
+                android:textColor="#222"
+                android:textColorHint="#888"
+                android:background="@drawable/rounded_input"
+                android:drawableStart="@drawable/ic_money"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Category -->
+            <EditText
+                android:id="@+id/editCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category (e.g. Food, Transport)"
+                android:padding="14dp"
+                android:textColor="#222"
+                android:textColorHint="#888"
+                android:background="@drawable/rounded_input"
+                android:drawableStart="@drawable/ic_category"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Date -->
+            <EditText
+                android:id="@+id/editDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date (MM/DD/YYYY)"
+                android:focusable="false"
+                android:clickable="true"
+                android:padding="14dp"
+                android:textColor="#222"
+                android:textColorHint="#888"
+                android:background="@drawable/rounded_input"
+                android:drawableStart="@drawable/ic_calendar"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="28dp">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:textColor="#007AFF"
+                    android:background="@drawable/btn_outline_blue"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="Save"
+                    android:textColor="#FFF"
+                    android:background="@drawable/btn_blue"
+                    android:textStyle="bold"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

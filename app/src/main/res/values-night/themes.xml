@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.ExpenseTracker" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Dark mode colors -->
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/gray</item>
+    </style>
+</resources>
