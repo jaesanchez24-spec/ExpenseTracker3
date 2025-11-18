@@ -6,17 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
 public class NotesDBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "notesDB";
-    private static final int DATABASE_VERSION = 2; // incremented because we added a column
-    private static final String TABLE_NAME = "notes";
-    private static final String COL_ID = "id";
-    private static final String COL_TITLE = "title";
-    private static final String COL_CONTENT = "content";
-    private static final String COL_REMINDER = "reminder_time"; // new column
+    public static final String DATABASE_NAME = "notes.db";
+    public static final int DATABASE_VERSION = 2; // incremented for reminder feature
+
+    public static final String TABLE_NOTES = "notes";
+    public static final String COL_ID = "id";
+    public static final String COL_TITLE = "title";
+    public static final String COL_CONTENT = "content";
+    public static final String COL_TIME = "timestamp";
+    public static final String COL_REMINDER = "reminderTime";
 
     public NotesDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,75 +24,86 @@ public class NotesDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL_TITLE + " TEXT," +
-                COL_CONTENT + " TEXT," +
+        String createTable = "CREATE TABLE " + TABLE_NOTES + " (" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_TITLE + " TEXT, " +
+                COL_CONTENT + " TEXT, " +
+                COL_TIME + " INTEGER, " +
                 COL_REMINDER + " INTEGER DEFAULT 0)";
-        db.execSQL(query);
+        db.execSQL(createTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // For simplicity, drop and recreate table (you can do proper migration if needed)
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_REMINDER + " INTEGER DEFAULT 0");
+        }
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTES);
         onCreate(db);
     }
 
-    public long addNote(Note note) {
+    // Insert a new note
+    public long insertNote(String title, String content, long timestamp, long reminderTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COL_TITLE, note.getTitle());
-        cv.put(COL_CONTENT, note.getContent());
-        cv.put(COL_REMINDER, note.getReminderTime()); // store reminder time
-        return db.insert(TABLE_NAME, null, cv);
+        cv.put(COL_TITLE, title);
+        cv.put(COL_CONTENT, content);
+        cv.put(COL_TIME, timestamp);
+        cv.put(COL_REMINDER, reminderTime);
+        return db.insert(TABLE_NOTES, null, cv);
     }
 
-    public int updateNote(Note note) {
+    // Update existing note
+    public int updateNote(int id, String title, String content, long timestamp, long reminderTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COL_TITLE, note.getTitle());
-        cv.put(COL_CONTENT, note.getContent());
-        cv.put(COL_REMINDER, note.getReminderTime());
-        return db.update(TABLE_NAME, cv, COL_ID + "=?", new String[]{String.valueOf(note.getId())});
+        cv.put(COL_TITLE, title);
+        cv.put(COL_CONTENT, content);
+        cv.put(COL_TIME, timestamp);
+        cv.put(COL_REMINDER, reminderTime);
+        return db.update(TABLE_NOTES, cv, COL_ID + "=?", new String[]{String.valueOf(id)});
     }
 
+    // Delete note
     public int deleteNote(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, COL_ID + "=?", new String[]{String.valueOf(id)});
+        return db.delete(TABLE_NOTES, COL_ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    public ArrayList<Note> getAllNotes() {
-        ArrayList<Note> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + COL_ID + " DESC", null);
-        if (cursor.moveToFirst()) {
-            do {
-                list.add(new Note(
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_TITLE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CONTENT)),
-                        cursor.getLong(cursor.getColumnIndexOrThrow(COL_REMINDER))
-                ));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return list;
-    }
-
+    // Get note by ID
     public Note getNoteById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ID + "=?", new String[]{String.valueOf(id)});
-        if (cursor != null && cursor.moveToFirst()) {
-            Note note = new Note(
-                    cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_CONTENT)),
-                    cursor.getLong(cursor.getColumnIndexOrThrow(COL_REMINDER))
+        Note note = null;
+        Cursor c = null;
+        try {
+            c = db.query(
+                    TABLE_NOTES,
+                    null,
+                    COL_ID + "=?",
+                    new String[]{String.valueOf(id)},
+                    null,
+                    null,
+                    null
             );
-            cursor.close();
-            return note;
+
+            if (c != null && c.moveToFirst()) {
+                String title = c.getString(c.getColumnIndexOrThrow(COL_TITLE));
+                String content = c.getString(c.getColumnIndexOrThrow(COL_CONTENT));
+                long timestamp = c.getLong(c.getColumnIndexOrThrow(COL_TIME));
+                long reminderTime = c.getLong(c.getColumnIndexOrThrow(COL_REMINDER));
+
+                note = new Note(id, title, content, timestamp, reminderTime);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (c != null) c.close();
         }
-        return null;
+
+        return note;
     }
 }

@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="12dp"
     android:gravity="center_vertical"
-    android:background="?attr/selectableItemBackground">
+    android:background="@drawable/note_item_bg"> <!-- Optional clean background -->
 
     <!-- Note Content -->
     <LinearLayout
@@ -20,34 +20,46 @@
             android:id="@+id/tvNoteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/note_title"
+            android:text="Note Title"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="17sp"
+            android:textColor="#1A1A1A"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/tvNoteContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/note_content"
+            android:text="This is a short preview of your note content..."
             android:textSize="14sp"
-            android:layout_marginTop="4dp"/>
+            android:textColor="#555555"
+            android:layout_marginTop="3dp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/tvReminderTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#555"
+            android:textColor="#1167B1"
             android:textSize="12sp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:text=""/> <!-- Set programmatically -->
     </LinearLayout>
 
-    <!-- Delete Button -->
     <ImageButton
         android:id="@+id/btnDelete"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:padding="10dp"
+        android:background="@null"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
+        android:contentDescription="Delete Note"
         app:srcCompat="@drawable/ic_delete"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/delete_note"
-        app:tint="@color/red"/>
+        app:tint="#D9534F"/>
+
+    
 </LinearLayout>

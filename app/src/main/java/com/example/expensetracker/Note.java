@@ -1,45 +1,38 @@
 package com.example.expensetracker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Note {
     private int id;
     private String title;
     private String content;
-    private long reminderTime; // for reminder
-    private boolean important; // NEW field
+    private long timestamp;
+    private long reminderTime; // NEW
 
-    public Note() {}
-
-    // Constructor without reminder
-    public Note(int id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.reminderTime = 0;
-        this.important = false; // default
+    public Note(int id, String title, String content, long timestamp) {
+        this(id, title, content, timestamp, 0);
     }
 
-    // Constructor with reminder
-    public Note(int id, String title, String content, long reminderTime) {
+    public Note(int id, String title, String content, long timestamp, long reminderTime) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.timestamp = timestamp;
         this.reminderTime = reminderTime;
-        this.important = false; // default
     }
 
-    // Getters and setters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
     public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
     public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
-
+    public long getTimestamp() { return timestamp; }
     public long getReminderTime() { return reminderTime; }
-    public void setReminderTime(long reminderTime) { this.reminderTime = reminderTime; }
 
-    public boolean isImportant() { return important; } // NEW getter
-    public void setImportant(boolean important) { this.important = important; } // NEW setter
+    // Format timestamp for display
+    public static String formatTime(long timeMillis) {
+        if (timeMillis <= 0) return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
+        return sdf.format(new Date(timeMillis));
+    }
 }

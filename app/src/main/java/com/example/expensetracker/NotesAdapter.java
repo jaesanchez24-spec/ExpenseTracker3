@@ -1,32 +1,32 @@
 package com.example.expensetracker;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
-    private final ArrayList<Note> noteList;
     private final Context context;
-    private final NotesDBHelper dbHelper;
+    private final ArrayList<Note> notes;
+    private final OnItemClickListener listener;
 
-    public NotesAdapter(ArrayList<Note> noteList, Context context) {
-        this.noteList = noteList;
+    public interface OnItemClickListener {
+        void onDeleteClick(int noteId);
+        void onItemClick(Note note);
+    }
+
+    public NotesAdapter(Context context, ArrayList<Note> notes, OnItemClickListener listener) {
         this.context = context;
-        this.dbHelper = new NotesDBHelper(context);
+        this.notes = notes;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,63 +38,38 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        Note note = noteList.get(position);
-
+        Note note = notes.get(position);
         holder.tvTitle.setText(note.getTitle());
         holder.tvContent.setText(note.getContent());
 
-        // Display reminder time with AM/PM
-        if (note.getReminderTime() > 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
-            holder.tvReminderTime.setText(sdf.format(note.getReminderTime()));
+        // Show reminder time if set
+        long reminder = note.getReminderTime();
+        if (reminder > 0) {
+            holder.tvReminder.setText("Reminder: " + Note.formatTime(reminder));
+            holder.tvReminder.setVisibility(View.VISIBLE);
         } else {
-            holder.tvReminderTime.setText("");
+            holder.tvReminder.setVisibility(View.GONE);
         }
 
-        // Reset background to avoid RecyclerView glitches
-        if (note.isImportant()) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorImportant));
-        } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorNormal));
-        }
-
-        // Open AddEditNoteActivity on click
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, AddEditNoteActivity.class);
-            intent.putExtra("noteId", note.getId());
-            context.startActivity(intent);
-        });
-
-        // Delete note
-        holder.btnDelete.setOnClickListener(v -> {
-            int rowsDeleted = dbHelper.deleteNote(note.getId());
-            if (rowsDeleted > 0) {
-                noteList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, noteList.size());
-                Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "Failed to delete note", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Click listeners
+        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(note.getId()));
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(note));
     }
 
     @Override
     public int getItemCount() {
-        return noteList.size();
+        return notes.size();
     }
 
-    // ViewHolder class
-    public static class NoteViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvTitle, tvContent, tvReminderTime;
+    static class NoteViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle, tvContent, tvReminder;
         ImageButton btnDelete;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvNoteTitle);
             tvContent = itemView.findViewById(R.id.tvNoteContent);
-            tvReminderTime = itemView.findViewById(R.id.tvReminderTime); // Add this TextView in item_note.xml
+            tvReminder = itemView.findViewById(R.id.tvReminderTime);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }

@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permission to post notifications (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -28,7 +30,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
-
 
         <!-- MainActivity -->
         <activity
@@ -65,8 +66,10 @@
             android:name=".AddEditNoteActivity"
             android:exported="true" />
 
-        <!-- AlarmReceiver-->
-        <receiver android:name=".AlarmReceiver"/>
+        <!-- Reminder Receiver for note notifications -->
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="false" />
 
     </application>
 
